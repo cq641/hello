@@ -1,0 +1,110 @@
+/* Follow the visitor's system appearance setting. */
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #ffffff;
+  color: #111111;
+  font-family: Avenir, "Avenir Next", "Helvetica Neue", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+::selection {
+  background: #ebec11;
+  color: #111111;
+}
+
+.intro {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.intro p {
+  box-sizing: border-box;
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0;
+  padding: 24px;
+}
+
+.intro a {
+  --underline-color: #111111;
+
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.intro a::after {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  left: 0;
+  height: 1px;
+  background: var(--underline-color);
+  content: "";
+}
+
+.intro a:hover::after,
+.intro a:focus-visible::after {
+  bottom: 1px;
+  height: 3px;
+  background: var(--underline-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='3' viewBox='0 0 8 3'%3E%3Cpath d='M0 1.5 Q2 0 4 1.5 T8 1.5' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") repeat-x;
+  -webkit-mask-size: 8px 3px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='3' viewBox='0 0 8 3'%3E%3Cpath d='M0 1.5 Q2 0 4 1.5 T8 1.5' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") repeat-x;
+  mask-size: 8px 3px;
+  animation: link-wave 350ms linear infinite;
+}
+
+@keyframes link-wave {
+  to {
+    -webkit-mask-position: 8px 0;
+    mask-position: 8px 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    background: #111111;
+    color: #33ff33;
+  }
+
+  ::selection {
+    background: #0b4f1b;
+    color: #33ff33;
+  }
+
+  .intro a {
+    --underline-color: #33ff33;
+  }
+}
+
+@media (max-width: 900px) {
+  .sentence:last-child {
+    display: block;
+    margin-top: 0.35em;
+  }
+}
+
+@media (max-width: 600px) {
+  .sentence {
+    display: block;
+  }
+
+  .sentence + .sentence {
+    margin-top: 0.35em;
+  }
+}
