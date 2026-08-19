@@ -1,8 +1,8 @@
 body {
   margin: 0;
   overflow: hidden;
-  background: #444444;
-  color: #ffffff;
+  background: #ffffff;
+  color: #111111;
   font-family: Avenir, "Avenir Next", "Helvetica Neue", sans-serif;
   font-size: 1.25rem;
   font-weight: 400;
@@ -13,7 +13,7 @@ body {
 
 ::selection {
   background: #ebec11;
-  color: #444444;
+  color: #111111;
 }
 
 .intro {
@@ -30,16 +30,12 @@ body {
 }
 
 .intro a {
-  --underline-color: #ffffff;
+  --underline-color: #111111;
 
   position: relative;
   display: inline-block;
   color: inherit;
   text-decoration: none;
-}
-
-.intro a.is-selected {
-  --underline-color: #444444;
 }
 
 .intro a::after {
