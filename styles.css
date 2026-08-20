@@ -99,6 +99,15 @@ a:focus-visible::after {
   main {
     padding-right: 0;
     padding-left: 0;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: inherit;
+    font-weight: 700;
+  }
+
   }
 
   .desktop-name,
@@ -120,6 +129,6 @@ a:focus-visible::after {
     display: grid;
     justify-items: center;
     margin-top: 40px;
-    row-gap: 0.35em;
+    row-gap: 40px;
   }
 }
