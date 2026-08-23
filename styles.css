@@ -37,7 +37,7 @@ body {
 
 main {
   box-sizing: border-box;
-  width: 760px;
+  width: 800px;
   max-width: calc(100vw - 100px);
 }
 
