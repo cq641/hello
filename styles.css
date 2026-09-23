@@ -85,7 +85,7 @@ a:focus-visible::after {
 
 a:hover,
 a:focus-visible {
-  opacity: 0.5;
+  color: var(--link-hover-color);
 }
 
 @keyframes link-wave {
