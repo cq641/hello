@@ -1,10 +1,3 @@
-const videoVisibility = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.play().catch(() => {});
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('video').forEach(video => videoVisibility.observe(video));
-
 document.querySelectorAll('.carousel').forEach(gallery => {
   const track = gallery.querySelector('.carousel-track');
   const dots = [...gallery.querySelectorAll('[data-slide]')];
