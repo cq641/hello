@@ -7,7 +7,6 @@ document.querySelectorAll('.carousel').forEach(gallery => {
     track.scrollTo({ left: destination * track.clientWidth, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
   };
   dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
-  gallery.querySelectorAll('[data-step]').forEach(button => button.addEventListener('click', () => show(index() + Number(button.dataset.step))));
   track.addEventListener('scroll', () => dots.forEach((dot, i) => dot.setAttribute('aria-pressed', String(i === index()))));
   track.addEventListener('keydown', event => {
     if (event.target !== track || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
