@@ -60,7 +60,7 @@ body {
 .intro a.link-irun,
 .selected-work li:has(.link-irun)::marker { color: #1a6fd1; }
 .intro a.link-dwelo,
-.selected-work li:has(.link-dwelo)::marker { color: #b45f00; }
+.selected-work li:has(.link-dwelo)::marker { color: #e78c3d; }
 
 /* Tablet: narrower text column */
 @media (min-width: 601px) and (max-width: 1199px) {
