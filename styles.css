@@ -42,8 +42,8 @@ body {
 .intro li + li { margin-top: 24px; }
 
 .intro ul {
-  padding: 0;
-  list-style: none;
+  padding-left: 20px;
+  list-style: disc;
 }
 
 .intro a {
@@ -55,9 +55,12 @@ body {
 .intro a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .intro a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
-.intro a.link-script { color: #2b8253; }
-.intro a.link-irun { color: #1a6fd1; }
-.intro a.link-dwelo { color: #b45f00; }
+.intro a.link-script,
+.selected-work li:has(.link-script)::marker { color: #2b8253; }
+.intro a.link-irun,
+.selected-work li:has(.link-irun)::marker { color: #1a6fd1; }
+.intro a.link-dwelo,
+.selected-work li:has(.link-dwelo)::marker { color: #b45f00; }
 
 /* Tablet: narrower text column */
 @media (min-width: 601px) and (max-width: 1199px) {
