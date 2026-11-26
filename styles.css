@@ -13,7 +13,7 @@ body {
   min-height: 100svh;
   margin: 0;
   background: #fff;
-  color: #111;
+  color: #000;
 }
 
 .gallery {
@@ -47,7 +47,7 @@ body {
 }
 
 .intro a {
-  color: #000;
+  color: #0070ef; /* 4.6:1 on white */
   font-weight: 700;
   text-decoration: none;
 }
@@ -55,12 +55,7 @@ body {
 .intro a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .intro a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
-.intro a.link-script,
-.selected-work li:has(.link-script)::marker { color: #2b8253; }
-.intro a.link-irun,
-.selected-work li:has(.link-irun)::marker { color: #1a6fd1; }
-.intro a.link-dwelo,
-.selected-work li:has(.link-dwelo)::marker { color: #e78c3d; }
+.selected-work li::marker { color: #0070ef; }
 
 /* Tablet: narrower text column */
 @media (min-width: 601px) and (max-width: 1199px) {
