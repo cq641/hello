@@ -177,6 +177,21 @@ body.case-open { overflow: hidden; }
 }
 
 @media (max-width: 600px) {
+  /* Let the document handle scrolling and browser gestures on standalone phone pages. */
+  body[data-case-page].case-open {
+    overflow: visible;
+    background: var(--case-color);
+  }
+  body[data-case-page] .case {
+    position: static;
+    min-height: 100svh;
+  }
+  body[data-case-page] .case-scroll {
+    display: flow-root;
+    position: static;
+    overflow: visible;
+    overscroll-behavior: auto;
+  }
   body[data-case-page] .case-nav { display: none; }
   .case-nav { top: 16px; left: 20px; }
   .case-main { width: calc(100% - 48px); }
