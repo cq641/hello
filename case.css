@@ -170,14 +170,9 @@ body.case-open { overflow: hidden; }
 .case-main .carousel-dots button[aria-pressed="true"]::before { background: #000; }
 .case-main .carousel-dots button:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
 
-/* ---------- Narrower windows: no section list; content still runs full height ---------- */
+/* ---------- Standalone pages on smaller or touch-first screens ---------- */
 
-@media (max-width: 1199px) {
-  .case-toc { display: none; }
-}
-
-@media (max-width: 600px) {
-  /* Let the document handle scrolling and browser gestures on standalone phone pages. */
+@media not all and (min-width: 1200px) and (hover: hover) and (pointer: fine) {
   body[data-case-page].case-open {
     overflow: visible;
     background: var(--case-color);
@@ -193,7 +188,9 @@ body.case-open { overflow: hidden; }
     overscroll-behavior: auto;
   }
   body[data-case-page] .case-nav { display: none; }
-  .case-nav { top: 16px; left: 20px; }
+}
+
+@media (max-width: 600px) {
   .case-main { width: calc(100% - 48px); }
   .case-main h1 { margin-bottom: 32px; }
   .case-main .shot-content > * + * { margin-top: 32px; }

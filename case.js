@@ -1,9 +1,8 @@
 // Case studies, two ways:
-// - On the homepage (tablet and desktop): the quadrant expands to fill the screen
+// - On desktop: the homepage quadrant expands to fill the screen
 //   (pushing the other projects away), its title becomes a close (X) button, and
 //   the case study fades in.
-// - On a project page (script.html etc., which phones open): the same case study
-//   design, shown as a regular page, with the X linking back to the homepage.
+// - On smaller or touch-first screens: project links open their own pages.
 // Content comes from case-data.js, or from source/<name>.html when that's missing.
 (() => {
   const siteRoot = new URL('.', document.currentScript.src);
@@ -15,8 +14,7 @@
   if (!pageId && (!grid || !tiles.length || !('animate' in Element.prototype))) return;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  // Phone layout: no in-page case studies; tiles just open the project pages.
-  const phone = matchMedia('(max-width: 600px)');
+  const desktop = matchMedia('(min-width: 1200px) and (hover: hover) and (pointer: fine)');
   const EASE = 'cubic-bezier(0.65, 0, 0.25, 1)';
   // One movement: the project expands and physically pushes the others off screen,
   // all on the same clock and curve. Closing is the same move in reverse.
@@ -291,6 +289,12 @@
     try { data = await load(tile.dataset.case); }
     catch { busy = false; location.href = tile.href; return; } // fall back to the page
 
+    if (!desktop.matches) {
+      if (addHistory) location.assign(tile.href);
+      else location.replace(tile.href);
+      return;
+    }
+
     const tileRect = tile.getBoundingClientRect();
     const imgRect = tile.querySelector('img').getBoundingClientRect();
     const nameRect = tile.querySelector('.project-name').getBoundingClientRect();
@@ -357,7 +361,7 @@
     busy = true;
     const c = current;
 
-    if (!reduced.matches) {
+    if (desktop.matches && !reduced.matches) {
       // Measure the quadrant again: the window may have been resized.
       const tileRect = c.tile.getBoundingClientRect();
       const imgRect = c.tile.querySelector('img').getBoundingClientRect();
@@ -418,7 +422,7 @@
   tiles.forEach(tile => tile.addEventListener('click', e => {
     // Let ⌘/Ctrl/Shift/middle-click open the case study page in a new tab as usual.
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    if (phone.matches) return; // follow the link to the project page
+    if (!desktop.matches) return;
     e.preventDefault();
     open(tile);
   }));
@@ -429,11 +433,15 @@
 
   // Read the latest URL when an animation ends so rapid Back/Forward stays in sync.
   function syncHistory() {
+    const tile = linkedTile();
+    if (tile && !desktop.matches) {
+      location.replace(tile.href);
+      return;
+    }
     if (busy) {
       needsHistorySync = true;
       return;
     }
-    const tile = linkedTile();
     if (current && current.tile !== tile) {
       needsHistorySync = Boolean(tile);
       close();
@@ -450,6 +458,7 @@
   }
 
   addEventListener('popstate', syncHistory);
+  desktop.addEventListener('change', () => { if (!desktop.matches) syncHistory(); });
 
   // ---------- Project pages (script.html etc.) ----------
 
@@ -478,7 +487,7 @@
   if (pageId) { renderPage(pageId); return; }
 
   const linked = linkedTile();
-  if (linked && phone.matches) location.replace(linked.href); // phones: go to the project page
+  if (linked && !desktop.matches) location.replace(linked.href);
   else if (linked) {
     // Put the grid underneath in history, so Back returns to it instead of leaving the site.
     tryHistory(() => history.replaceState(null, '', location.pathname + location.search));

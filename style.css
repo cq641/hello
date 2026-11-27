@@ -206,7 +206,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .quadrant::after, .project img, .project-desc { transition: none; }
-  .project:hover { --lift: 0px; }
+  .project:hover, .project:hover img { --lift: 0px; }
 }
 
 /* ---------- Mobile: stack vertically ---------- */
@@ -251,10 +251,11 @@ body {
   }
 }
 
-/* ---------- Phones and touch screens: no hover effects ---------- */
+/* ---------- Smaller or touch-first screens: show descriptions without motion ---------- */
 
-@media (max-width: 600px), (hover: none) {
+@media not all and (min-width: 1200px) and (hover: hover) and (pointer: fine) {
   .quadrants:has(.quadrant:hover) .quadrant:not(:hover)::after { opacity: 0; }
-  .project:hover { --lift: 0px; }
+  .project:hover, .project:hover img { --lift: 0px; }
+  .quadrant::after, .project img { transition: none; }
   .project-desc { opacity: 1; transform: none; transition: none; }
 }
