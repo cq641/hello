@@ -20,7 +20,7 @@
   const EASE = 'cubic-bezier(0.65, 0, 0.25, 1)';
   // One movement: the project expands and physically pushes the others off screen,
   // all on the same clock and curve. Closing is the same move in reverse.
-  const MOVE_MS = 450;
+  const MOVE_MS = 350;
   const pageTitle = document.title;
 
   let current = null; // { tile, panel, ... } while a case study is open
