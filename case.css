@@ -177,6 +177,7 @@ body.case-open { overflow: hidden; }
 }
 
 @media (max-width: 600px) {
+  body[data-case-page] .case-nav { display: none; }
   .case-nav { top: 16px; left: 20px; }
   .case-main { width: calc(100% - 48px); }
   .case-main h1 { margin-bottom: 32px; }
