@@ -5,25 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="The portfolio of Austin designer Cesar Quiroga." />
     <title>Cesar Quiroga — Designer in Austin, TX</title>
-    <link rel="stylesheet" href="styles.css?v=light-33-20261126" />
+    <link rel="stylesheet" href="style.css?v=hello-fit-1" />
+    <link rel="stylesheet" href="case.css?v=release-1" />
+    <script src="case-data.js?v=3" defer></script>
+    <script src="case.js?v=release-1" defer></script>
   </head>
   <body>
-    <main class="gallery" aria-label="Cesar Quiroga portfolio">
-      <div class="intro">
-        <p>Hello,</p>
-        <p>My name is Cesar Quiroga. I'm a designer based in Austin, Texas.</p>
-        <p>I studied visual communication with a concentration on user experience and focus primarily on interface and interaction prototyping.</p>
-        <section class="selected-work" aria-labelledby="selected-work-title">
-          <h2 id="selected-work-title">Here are a few of my personal projects:</h2>
-          <ul>
-            <li><a class="link-script" href="projects/script.html">Script</a>: an iPad app that helps us connect via handwriting</li>
-            <li><a class="link-irun" href="projects/irun.html">iRun</a>: a running app that de-emphasizes metrics</li>
-            <li><a class="link-dwelo" href="projects/dwelo.html">Dwelo</a>: a smart home app redesign</li>
-          </ul>
-        </section>
-        <p>Outside of software design, I take <a href="https://glass.photo/cesar" target="_blank" rel="noopener noreferrer">photos</a>, dabble in 3D printing, and recently started sketching out plans for a home I hope to build one day. My other interests include art history, architecture, and industrial design.</p>
-        <p>I'm currently looking for a product design role. Send me an <a href="mailto:cq641@icloud.com">email</a> if you'd like to connect!</p>
-      </div>
+    <main class="quadrants" aria-label="Cesar Quiroga portfolio">
+      <section class="quadrant intro" aria-label="About">
+        <p class="intro-hello">Hello</p>
+        <div class="intro-inner">
+          <p>My name is Cesar Quiroga. I'm a designer based in Austin, Texas.</p>
+          <p>I studied visual communication with a concentration on user experience and focus primarily on interface and interaction prototyping.</p>
+          <p>Outside of software design, I take <a href="https://glass.photo/cesar" target="_blank" rel="noopener noreferrer">photos</a>, dabble in 3D printing, and recently started sketching out plans for a home I hope to build one day.</p>
+          <p>I'm currently looking for a product design role. Send me an <a href="mailto:cq641@icloud.com">email</a> if you'd like to connect!</p>
+        </div>
+      </section>
+
+      <a class="quadrant project project-script" data-case="script" href="projects/script.html">
+        <img src="images/script.webp" width="1400" height="1400" alt="Script on iPad: a handwritten note on a sheet of paper over a green cutting mat" />
+        <span class="project-label">
+          <span class="project-name">Script</span>
+          <span class="project-desc">An iPad app that helps us connect via handwriting</span>
+        </span>
+      </a>
+
+      <a class="quadrant project project-irun" data-case="irun" href="projects/irun.html">
+        <img src="images/irun-gradient.webp" width="1372" height="1400" alt="iRun on iPhone: a finished run route over a blue-to-yellow gradient" />
+        <span class="project-label">
+          <span class="project-name">iRun</span>
+          <span class="project-desc">A running app that de-emphasizes metrics</span>
+        </span>
+      </a>
+
+      <a class="quadrant project project-dwelo" data-case="dwelo" href="projects/dwelo.html">
+        <img src="images/dwelo.webp" width="1400" height="1400" alt="Dwelo app icon on an iPhone home screen" />
+        <span class="project-label">
+          <span class="project-name">Dwelo</span>
+          <span class="project-desc">A smart home app redesign</span>
+        </span>
+      </a>
     </main>
   </body>
 </html>

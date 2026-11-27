@@ -1,0 +1,260 @@
+:root {
+  color-scheme: only light;
+  font-family: Avenir, "Avenir Next", "Helvetica Neue", sans-serif;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+
+  --frame: 8px;
+  --frame-color: #000;
+  --dim: 0.08; /* how much the non-hovered quadrants darken */
+  --link: #0070ef; /* 4.6:1 on white */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { min-width: 320px; min-height: 100%; }
+
+body {
+  min-height: 100svh;
+  margin: 0;
+  background: var(--frame-color);
+  color: #000;
+}
+
+/* ---------- Grid: 2×2 on desktop + tablet ---------- */
+
+.quadrants {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Equal rows fill the screen and grow together when the intro needs more room. */
+  grid-template-rows: repeat(2, minmax(min-content, 1fr));
+  gap: var(--frame);
+  min-height: 100svh;
+  /* Quadrants run to every edge of the screen; only the gaps between them remain */
+  padding: 0;
+}
+
+.quadrant {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Project colors.
+   --case-color: the open case study's page background (25% project color, 75% white).
+   --mock-color: behind the design mockups in the case study, so white screens stand
+   out from the page (50% project color, 50% white; also baked into the videos). */
+.project-script { --color: #d9e4c8; --case-color: #f6f8f1; --mock-color: #ecf1e3; }
+.project-irun   { --color: #d6e2f5; --case-color: #f5f8fd; --mock-color: #eaf0fa; }
+.project-dwelo  { --color: #f7d9bb; --case-color: #fdf6ee; --mock-color: #fbecdd; }
+.project { background: var(--color); }
+
+/* Hovering one quadrant dims the other three, so the hovered one is brightest.
+   A dark overlay (instead of a color swap) works on every background color. */
+.quadrant::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease);
+}
+
+.quadrants:has(.quadrant:hover) .quadrant:not(:hover)::after { opacity: var(--dim); }
+
+/* ---------- Intro (top left) ---------- */
+
+.intro {
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  padding: clamp(16px, 3.5vmin, 56px);
+  /* Keep the text clear of the pinned "Hello" */
+  padding-top: max(60px, 3.5vmin, calc(32px + 1.4rem));
+  overflow: visible;
+  /* Black like the frame, with white text; links stay blue */
+  background: var(--frame-color);
+  color: #fff;
+}
+
+.intro-inner {
+  font-size: 1rem;
+  width: min(100%, 520px);
+}
+
+.intro p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.intro p + p { margin-top: 1.5em; }
+
+@media (width > 600px) and (max-height: 820px) and (orientation: landscape) {
+  .intro p + p { margin-top: 1em; }
+}
+
+/* "Hello" sits where the project titles do */
+.intro .intro-hello {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.intro a {
+  color: var(--link);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.intro a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.intro a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+/* ---------- Project quadrants ---------- */
+
+.project {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  /* Image sizing below is relative to the quadrant's own size */
+  container-type: size;
+
+  /*
+    Sneak peek: devices are 1.5× the size that would just fit the quadrant,
+    pushed down so only their top 50% shows above the bottom edge.
+    In every cover image the device starts 5.1% from the top and is
+    89.8% of the image's height.
+  */
+  --img-h: calc(1.5 * min(100cqw - 32px, 100cqh - 92px));
+  --device-top: 0.051;
+  --device-h: 0.898;
+  --peek: 0.5;
+  /* At rest the device sits 8% (of its image height) above the 50% peek;
+     hover lifts it another 8% */
+  --rest-lift: 0.08;
+  --lift: 0px;
+}
+
+.project img {
+  position: absolute;
+  left: 50%;
+  top: calc(100cqh - (var(--device-top) + var(--peek) * var(--device-h) + var(--rest-lift)) * var(--img-h));
+  display: block;
+  width: auto;
+  height: var(--img-h);
+  max-width: none;
+  transform: translate(-50%, var(--lift));
+  transition: transform 0.6s var(--ease);
+}
+
+/* Hover: the device rises a little more into view */
+.project:hover { --lift: calc(-0.08 * var(--img-h)); }
+
+/* Portrait quadrants (taller than wide, e.g. tablets held upright): instead of
+   peeking from the bottom, show the whole device, centered in the space under
+   the title. The iPad is capped at 70% of the quadrant's width. */
+@container (max-aspect-ratio: 1/1) {
+  .project img {
+    --img-h: min(
+      calc((100cqh - 104px - 32px) / var(--device-h)), /* fit the height below the title + description */
+      calc(70cqw / 0.689)                             /* iPad no wider than 70% */
+    );
+    height: var(--img-h);
+    /* center the device (not the whole image) between the title area and the bottom */
+    top: calc(104px + (100cqh - 104px - 32px - var(--device-h) * var(--img-h)) / 2 - var(--device-top) * var(--img-h));
+  }
+  /* smaller hover lift, since the whole device is already in view */
+  .project:hover img { --lift: calc(-0.03 * var(--img-h)); }
+}
+
+.project-label {
+  position: absolute;
+  z-index: 1;
+  left: 24px;
+  top: 20px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 16px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.project-name { font-weight: 700; }
+
+.project-desc {
+  color: #555;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.project:hover .project-desc,
+.project:focus-visible .project-desc {
+  opacity: 1;
+  transform: none;
+}
+
+.project:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: -3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quadrant::after, .project img, .project-desc { transition: none; }
+  .project:hover { --lift: 0px; }
+}
+
+/* ---------- Mobile: stack vertically ---------- */
+
+@media (max-width: 600px) {
+  .quadrants {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  /* Stacked: intro grows to fit its text */
+  .intro { padding: max(56px, calc(28px + 1.4rem)) 24px 32px; }
+  .intro .intro-hello { top: 16px; left: 20px; }
+
+  /* Text at the top, device 24px under it, and the tile ends halfway down the
+     device: the same top-50% view the desktop quadrants show before hover.
+     The device is sized from the tile's width. */
+  .project {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 20px 0;
+    container-type: inline-size; /* height now comes from the content */
+    --img-h: calc(1.5 * (100cqw - 92px));
+  }
+
+  /* In the markup the image comes first; show the text first */
+  .project-label { position: static; order: -1; }
+
+  /* Room for a two-line description on every tile, so all three are the same height */
+  .project-desc { min-height: calc(2 * 1.4em); }
+
+  .project img {
+    position: static;
+    flex: none;
+    align-self: center;
+    /* The device sits 5.1% below the top of its image; offset that so the
+       gap is measured to the device itself */
+    margin-top: calc(24px - var(--device-top) * var(--img-h));
+    /* Only the top half of the device counts toward the tile's height; the rest is cut off */
+    margin-bottom: calc(-1 * (1 - var(--device-top) - var(--peek) * var(--device-h)) * var(--img-h));
+    transform: none;
+  }
+}
+
+/* ---------- Phones and touch screens: no hover effects ---------- */
+
+@media (max-width: 600px), (hover: none) {
+  .quadrants:has(.quadrant:hover) .quadrant:not(:hover)::after { opacity: 0; }
+  .project:hover { --lift: 0px; }
+  .project-desc { opacity: 1; transform: none; transition: none; }
+}

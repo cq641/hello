@@ -1,0 +1,186 @@
+/*
+  Expanded case study.
+  The default styles here are the fully-open state; case.js animates
+  from the quadrant into this state and back out again.
+*/
+
+body.case-open { overflow: hidden; }
+
+.case {
+  /* 25% project color, 75% white (--case-color, set per project in style.css) */
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--case-color);
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* The quadrant's device thumbnail: blurs away as the panel opens */
+.case-thumb {
+  position: absolute;
+  max-width: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.case-scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.case-scroll:focus-visible { outline: 2px solid #000; outline-offset: -2px; }
+
+/* ---------- Close (X) button + section list ---------- */
+
+.case-nav {
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  left: 24px;
+  line-height: 1.4;
+}
+
+.case-close {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  /* A 40px round hit area, with the X sitting where the project title was */
+  margin: -9px 0 -9px -12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  /* Solid circle in the page color: text scrolling beneath passes behind it */
+  background: var(--case-color);
+  color: #000;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none; /* it's a link on the project pages */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* The project name sits exactly where the title was, then cross-fades into the X */
+.case-close-name {
+  position: absolute;
+  top: 9px;
+  left: 12px;
+  white-space: nowrap;
+  opacity: 0;
+}
+.case-close-icon svg { display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.case-close:hover { background-color: color-mix(in srgb, var(--case-color), #000 8%); }
+@media (max-width: 600px), (hover: none) {
+  .case-close:hover { background-color: var(--case-color); }
+}
+.case-close:focus-visible { outline: 2px solid #000; outline-offset: 0; }
+
+.case-toc {
+  width: min(260px, calc((100vw - 800px) / 2 - 48px));
+  max-height: calc(100svh - 120px);
+  margin: 32px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  list-style: none;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+}
+
+.case-toc li + li { margin-top: 4px; }
+
+.case-toc a {
+  color: #606060;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.case-toc a:hover,
+.case-toc a[aria-current="true"] { color: #000; }
+.case-toc a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
+
+/* ---------- Case study content (adapted from the original project pages' styles) ---------- */
+
+.case-main {
+  width: min(100% - 64px, 800px);
+  margin: 46px auto 0;
+  padding: 24px 0 80px;
+}
+
+.case-main h1 {
+  margin: 0 0 40px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.case-main :is(h1, h2)[id] { scroll-margin-top: 36px; }
+
+.case-main .shot-content { display: flex; flex-direction: column; max-width: 800px; margin: auto; }
+.case-main .shot-content > * + * { margin-top: 40px; }
+.case-main .shot-content > .prose:has(> h2):not(:first-child) { margin-top: 64px; }
+.case-main .shot-content > .prose:has(> h2:only-child) + * { margin-top: 24px; }
+
+.case-main .prose { overflow-wrap: break-word; }
+.case-main p { margin: 0; }
+.case-main .prose > p + p,
+.case-main .prose > p + ul,
+.case-main .prose > ul + p,
+.case-main .prose > h2 + p,
+.case-main .prose > h2 + ul { margin-top: 24px; }
+.case-main h2 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 700; }
+.case-main ul { margin: 0; padding-left: 24px; }
+
+.case-main figure { margin: 0; aspect-ratio: var(--media-ratio, auto); overflow: hidden; border-radius: 8px; }
+/* Design mockups sit on a deeper tint than the page */
+.case-main figure.case-cutout { background: var(--mock-color); }
+.case-main figure :is(img, video) { display: block; width: 100%; height: 100%; object-fit: var(--media-fit, contain); }
+
+.case-main .carousel { min-width: 0; }
+.case-main .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.case-main .carousel-track::-webkit-scrollbar { display: none; }
+.case-main .carousel-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
+/* Round the carousel as a whole, not each slide, so slides stay square-edged as they move */
+.case-main .carousel-track { border-radius: 8px; }
+.case-main .carousel-slide figure { border-radius: 0; }
+.case-main .carousel-controls { display: flex; justify-content: center; margin-top: 8px; }
+.case-main .carousel-dots { display: flex; flex-wrap: wrap; justify-content: center; }
+.case-main .carousel-dots button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.case-main .carousel-dots button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #767676;
+}
+.case-main .carousel-dots button[aria-pressed="true"]::before { background: #000; }
+.case-main .carousel-dots button:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+
+/* ---------- Narrower windows: no section list; content still runs full height ---------- */
+
+@media (max-width: 1199px) {
+  .case-toc { display: none; }
+}
+
+@media (max-width: 600px) {
+  .case-nav { top: 16px; left: 20px; }
+  .case-main { width: calc(100% - 48px); }
+  .case-main h1 { margin-bottom: 32px; }
+  .case-main .shot-content > * + * { margin-top: 32px; }
+  .case-main .shot-content > .prose:has(> h2):not(:first-child) { margin-top: 48px; }
+  .case-main .shot-content > .prose:has(> h2:only-child) + * { margin-top: 20px; }
+}
